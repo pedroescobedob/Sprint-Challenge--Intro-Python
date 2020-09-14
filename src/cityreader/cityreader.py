@@ -1,6 +1,15 @@
+import csv
+
 # Create a class to hold a city location. Call the class "City". It should have
 # fields for name, lat and lon (representing latitude and longitude).
+class City:
+  def __init__(self, name, lat, lon):
+    self.name = name
+    self.lat = lat
+    self.lon = lon
 
+  def __repr__(self):
+    return f"{self.name}, {self.lat},{self.lon}"
 
 # We have a collection of US cities with population over 750,000 stored in the
 # file "cities.csv". (CSV stands for "comma-separated values".)
@@ -21,7 +30,14 @@ def cityreader(cities=[]):
   # Ensure that the lat and lon valuse are all floats
   # For each city record, create a new City instance and add it to the 
   # `cities` list
-    
+    city_file = 'cities.csv'
+
+    with open(city_file, newline="") as file:
+      citydata = csv.reader(file, delimiter=',')
+      citydata = list(citydata)[1:]
+      for row in citydata:
+        cities.append(City(str(row[0]), float(row[3]), float(row[4])))
+
     return cities
 
 cityreader(cities)
@@ -69,3 +85,7 @@ def cityreader_stretch(lat1, lon1, lat2, lon2, cities=[]):
   # the specified coordinates.
 
   return within
+
+
+import pandas as pd
+the_file = pd.read_csv = 'cities.csv'
