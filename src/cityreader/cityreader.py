@@ -44,7 +44,7 @@ cityreader(cities)
 
 # Print the list of cities (name, lat, lon), 1 record per line.
 for c in cities:
-    print(c)
+  print(c)
 
 # STRETCH GOAL!
 #
@@ -80,8 +80,40 @@ for c in cities:
 def cityreader_stretch(lat1, lon1, lat2, lon2, cities=[]):
   # within will hold the cities that fall within the specified region
   within = []
-  
+
   # Go through each city and check to see if it falls within 
   # the specified coordinates.
 
+  latsort = sorted([lat1, lat2])
+  lonsort = sorted([lon1, lon2], reverse=True)
+
+  def lattest(x):
+    return x.lat > latsort[0] and x.lat < latsort[1]
+
+  def lontest(x):
+    return x.lon < lonsort[0] and x.lon > lonsort[1]
+
+  within = [c for c in cities if lattest(c) and lontest(c)]
   return within
+
+
+while True:
+  try:
+    x, y = [float(x) for x in input("Enter lat and lon:").split(",")]
+    cords = sorted([x, y], reverse=True)
+    cords = tuple(cords)
+    try:
+      x1, y1 = [float(x1) for x1 in input("Enter lat and lon:").split(",")]
+      cords1 = sorted([x1, y1], reverse=True)
+      cords1 = tuple(cords1)
+      cords3 = cords + cords1
+      lat1, lon1, lat2, lon2 = cords3
+      results = cityreader_stretch(*cords3, cities=cities)
+      print(results)
+      print()
+      break
+    except ValueError:
+      print("Error: not valid lat and lon")
+    break
+  except ValueError:
+    print("Error: enter valid lat and lon")
